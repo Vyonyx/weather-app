@@ -1,5 +1,6 @@
 import './style.scss'
 
+const forecastContainer = document.querySelector('.forecast-container')
 const currentCity = document.querySelector('[data-city]')
 const currentDescription = document.querySelector('[data-description]')
 const currentTemperature = document.querySelector('[data-temperature]')
@@ -29,11 +30,15 @@ async function getWeatherData() {
         'lat':cityData[0].lat,
         'lon': cityData[0].lon,
         'units': toggleUnit.checked ? 'imperial' : 'metric',
+        'exclude': 'hourly,minutely',
         'appid': appID
     }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     const response = await fetch(url)
     const data = await response.json()
+
+    const forecast = getForcast(data)
+    renderForecast(forecast)
 
     currentCity.innerText = `${cityData[0].name}, ${cityData[0].country}`
     currentDescription.innerText = data.current.weather[0].description.split(' ').map(word => capitalise(word)).join(' ')
@@ -55,3 +60,26 @@ toggleUnit.addEventListener('input', async () => {
 })
 
 function capitalise(word) { return word.toUpperCase()[0] + word.slice(1) }
+
+function getDay(data) {
+    return new Date(data.dt * 1000).toLocaleString('en-US', { weekday: 'long' })
+}
+function getSymbolText(data) {
+    return data.weather[0].main
+}
+
+function getForcast(data) {
+    const forecastData = []
+    const next4Days = data.daily.slice(1, 5)
+    next4Days.forEach(day => {
+        forecastData.push({ 'day': getDay(day), 'symbol': getSymbolText(day) })
+    })
+    return forecastData
+}
+
+function renderForecast(dataArray) {
+    const children = forecastContainer.children
+    for (let i=0; i < children.length; i++) {
+        children[i].innerText = `Day:${dataArray[i].day}, Symbol:${dataArray[i].symbol}`
+    }
+}
