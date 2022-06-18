@@ -13,13 +13,23 @@ const toggleUnit = document.querySelector('[data-toggle-unit]')
 
 const appID = '651dc446b420d45adb42aea9be445339'
 
-async function getCoords() {
-    const city = searchBar.value || 'Wellington'
+async function getCoords(searchCity = null) {
+    const city = searchBar.value || searchCity || 'Wellington'
     const url = new URL('http://api.openweathermap.org/geo/1.0/direct')
     const params = { 'q':city, 'appid':appID }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     const response = await fetch(url)
     const data = await response.json()
+    return data
+}
+
+async function getCityName(lat, lon) {
+    const url = new URL('http://api.openweathermap.org/geo/1.0/reverse')
+    const params = { 'lat':lat, 'lon':lon, 'appid': appID }
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    const response = await fetch(url)
+    const data = await response.json()
+    console.log(data)
     return data
 }
 
@@ -45,10 +55,9 @@ async function getWeatherData() {
     currentTemperature.innerText = `${data.current.temp}° ${toggleUnit.checked ? 'Fahrenheit' : 'Celcius'}`
     currentWindSpeed.innerText = `${data.current['wind_speed']} ${params.units === 'imperial' ? 'm/ph' : 'm/s'}`
     currentHumidity.innerText = `Humidity: ${data.current.humidity}%`
-    searchBar.value = ''
 }
 
-getWeatherData()
+getByGeoLocation()
 
 searchForm.addEventListener('submit', e => {
     e.preventDefault()
@@ -81,5 +90,16 @@ function renderForecast(dataArray) {
     const children = forecastContainer.children
     for (let i=0; i < children.length; i++) {
         children[i].innerText = `Day:${dataArray[i].day}, Symbol:${dataArray[i].symbol}`
+    }
+}
+
+function getByGeoLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const { latitude, longitude } = position.coords
+            const data = await getCityName(latitude, longitude)
+            const cityName = await getCoords(data[0].name)
+            await getWeatherData(cityName)
+        })
     }
 }
