@@ -117,7 +117,8 @@ function renderForecast(data) {
         removeElements(child)
         const img = new Image(50, 50)
         img.src = symbols[`${data[i].symbol}`]
-        const symbolText = document.createTextNode(`${data[i].day}`)
+        const symbolText = document.createElement('h3')
+        symbolText.innerText = `${data[i].day}`
         child.appendChild(img)
         child.appendChild(symbolText)
     }

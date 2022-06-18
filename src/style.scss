@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+$main-color: #6DFAA5;
+$background-color: #262A2B;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: $background-color;
+    color: $main-color;
+    font-family: 'Roboto', sans-serif;
+    padding: 50px;
+}
+
+.forecast-container {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    margin-bottom: 50px;
+
+    >li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Lobster Two', cursive;
+
+        border: 1px solid $main-color;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        position: relative;
+
+        h3 {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}
