@@ -1,4 +1,21 @@
 import './style.scss'
+import thunderstormIcon from './icons/thunderstorm.svg'
+import drizzleIcon from './icons/rain.svg'
+import rainIcon from './icons/rain.svg'
+import snowIcon from './icons/snow.svg'
+import atmosphereIcon from './icons/atmosphere.svg'
+import clearIcon from './icons/clear.svg'
+import cloudIcon from './icons/clouds.svg'
+
+let symbols = {
+    'Thunderstorm': thunderstormIcon,
+    'Drizzle': drizzleIcon,
+    'Rain': rainIcon,
+    'Snow': snowIcon,
+    'Atmosphere': atmosphereIcon,
+    'Clear': clearIcon,
+    'Clouds': cloudIcon,
+}
 
 const forecastContainer = document.querySelector('.forecast-container')
 const currentCity = document.querySelector('[data-city]')
@@ -70,6 +87,13 @@ toggleUnit.addEventListener('input', async () => {
 
 function capitalise(word) { return word.toUpperCase()[0] + word.slice(1) }
 
+function removeElements(element) {
+    if (!element.firstChild) return
+    while (element.lastChild) {
+        element.removeChild(element.lastChild)
+    }
+}
+
 function getDay(data) {
     return new Date(data.dt * 1000).toLocaleString('en-US', { weekday: 'long' })
 }
@@ -86,10 +110,16 @@ function getForcast(data) {
     return forecastData
 }
 
-function renderForecast(dataArray) {
+function renderForecast(data) {
     const children = forecastContainer.children
     for (let i=0; i < children.length; i++) {
-        children[i].innerText = `Day:${dataArray[i].day}, Symbol:${dataArray[i].symbol}`
+        const child = children[i]
+        removeElements(child)
+        const img = new Image(50, 50)
+        img.src = symbols[`${data[i].symbol}`]
+        const symbolText = document.createTextNode(`${data[i].day}`)
+        child.appendChild(img)
+        child.appendChild(symbolText)
     }
 }
 
