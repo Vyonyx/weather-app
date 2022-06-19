@@ -47,7 +47,7 @@ async function getCoords(searchCity = null) {
 }
 
 async function getCityName(lat, lon) {
-    const url = new URL('http://api.openweathermap.org/geo/1.0/reverse')
+    const url = new URL('https://api.openweathermap.org/geo/1.0/reverse')
     const params = { 'lat':lat, 'lon':lon, 'appid': appID }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     const response = await fetch(url)
