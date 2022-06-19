@@ -6,6 +6,9 @@ import snowIcon from './icons/snow.svg'
 import atmosphereIcon from './icons/atmosphere.svg'
 import clearIcon from './icons/clear.svg'
 import cloudIcon from './icons/clouds.svg'
+import thermostat from './icons/temp.svg'
+import wind from './icons/wind.svg'
+import humidity from './icons/humidity.svg'
 
 let symbols = {
     'Thunderstorm': thunderstormIcon,
@@ -15,6 +18,9 @@ let symbols = {
     'Atmosphere': atmosphereIcon,
     'Clear': clearIcon,
     'Clouds': cloudIcon,
+    'Thermostat': thermostat,
+    'Wind': wind,
+    'Humidity': humidity
 }
 
 const forecastContainer = document.querySelector('.forecast-container')
@@ -67,10 +73,65 @@ async function getWeatherData() {
     renderForecast(forecast)
 
     currentCity.innerText = `${cityData[0].name}, ${cityData[0].country}`
-    currentDescription.innerText = data.current.weather[0].description.split(' ').map(word => capitalise(word)).join(' ')
-    currentTemperature.innerText = `${data.current.temp}° ${toggleUnit.checked ? 'Fahrenheit' : 'Celcius'}`
-    currentWindSpeed.innerText = `${data.current['wind_speed']} ${params.units === 'imperial' ? 'm/ph' : 'm/s'}`
-    currentHumidity.innerText = `Humidity: ${data.current.humidity}%`
+    updateCurrentWeatherDescription(currentDescription, data)
+    updateCurrentTemperature(currentTemperature, data)
+    updateCurrentWind(currentWindSpeed, data, params)
+    updateCurrentHumidity(currentHumidity, data, params)
+}
+
+function updateCurrentWeatherDescription(element, data) {
+    removeElements(element)
+    const symbol = data.current.weather[0].main.split(' ').map(word => capitalise(word)).join(' ')
+    const description = data.current.weather[0].description.split(' ').map(word => capitalise(word)).join(' ')
+    
+    const img = new Image(100, 100)
+    const symbolText = document.createElement('h3')
+    img.src = symbols[symbol]
+    symbolText.innerText = description
+
+    element.appendChild(img)
+    element.appendChild(symbolText)
+
+
+}
+
+function updateCurrentTemperature(element, data) {
+    removeElements(element)
+
+    const temperatureValue = `${data.current.temp}° ${toggleUnit.checked ? 'Fahrenheit' : 'Celcius'}`
+    const temperature = document.createElement('h3')
+    const img = new Image(100, 100)
+    temperature.innerText = temperatureValue
+    img.src = symbols['Thermostat']
+
+    element.appendChild(img)
+    element.appendChild(temperature)
+}
+
+function updateCurrentWind(element, data, params) {
+    removeElements(element)
+
+    const windSpeed = `${data.current['wind_speed']} ${params.units === 'imperial' ? 'm/ph' : 'm/s'}`
+    const wind = document.createElement('h3')
+    const img = new Image(100, 100)
+    wind.innerText = windSpeed
+    img.src = symbols['Wind']
+
+    element.appendChild(img)
+    element.appendChild(wind)
+}
+
+function updateCurrentHumidity(element, data, params) {
+    removeElements(element)
+
+    const humidityReading = `${data.current['wind_speed']} ${params.units === 'imperial' ? 'm/ph' : 'm/s'}`
+    const humidity = document.createElement('h3')
+    const img = new Image(100, 100)
+    humidity.innerText = humidityReading
+    img.src = symbols['Humidity']
+
+    element.appendChild(img)
+    element.appendChild(humidity)
 }
 
 getWeatherData()
