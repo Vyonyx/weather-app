@@ -38,7 +38,7 @@ const appID = '651dc446b420d45adb42aea9be445339'
 
 async function getCoords(searchCity = null) {
     const city = searchBar.value || searchCity || 'Wellington'
-    const url = new URL('http://api.openweathermap.org/geo/1.0/direct')
+    const url = new URL('https://api.openweathermap.org/geo/1.0/direct')
     const params = { 'q':city, 'appid':appID }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     const response = await fetch(url)
