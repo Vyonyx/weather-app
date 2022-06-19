@@ -29,6 +29,31 @@ body {
     .current-data-container {
         grid-area: current;
         place-self: center;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        grid:
+            'title' 100px
+            'today' 1fr /
+            1fr;
+
+        .city-name {
+            grid-area: title;
+        }
+
+        .weather-today {
+            grid-area: today;
+            place-self: center;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            grid:
+                'description temp' 1fr
+                'wind humidity' 1fr /
+                1fr 1fr;
+            }
     }
     
     form {
@@ -75,6 +100,27 @@ body {
     }
 }
 
+.current-data-container {
+    h1 {
+        font-size: 2.5rem;
+        font-family: 'Lobster Two', cursive;
+        position: relative;
+        width: 100%;
+        text-align: center;
+
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: calc(0px - 15px);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-bottom: 1px solid $main-color;
+        }
+    }
+}
+
+
 form {
     width: 100%;
     position: relative;
@@ -117,4 +163,8 @@ form {
             border-bottom: 1px solid $main-color;
         }
     }
+}
+
+.hide {
+    display: none;
 }
