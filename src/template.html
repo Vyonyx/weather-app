@@ -13,19 +13,23 @@
         <li class="forecast"></li>
         <li class="forecast"></li>
     </ul>
-    <h1 class="city-name" data-city></h1>
-    <div class="weather-today container">
-        <div class="weather-data description" data-description></div>
-        <div class="weather-data temperature" data-temperature></div>
-        <div class="weather-data wind-speed" data-wind-speed></div>
-        <div class="weather-data humidity" data-humidity></div>
+    <div class="current-data-container">
+        <h1 class="city-name" data-city></h1>
+        <div class="weather-today container">
+            <div class="weather-data description" data-description></div>
+            <div class="weather-data temperature-wrapper">
+                <div class="weather-data temperature" data-temperature></div>
+                <input type="checkbox" id="toggle" data-toggle-unit>
+                <label for="toggle">Toggle Unit</label>
+            </div>
+            <div class="weather-data wind-speed" data-wind-speed></div>
+            <div class="weather-data humidity" data-humidity></div>
+        </div>
     </div>
     <form action="">
-        <input type="text" id="search" class="search" placeholder="Country or Code" data-search-bar>
+        <input type="text" id="search" class="search" placeholder="Enter city name..." autocomplete="off" data-search-bar>
         <button type="search" data-search-button>Search</button>
     </form>
-    <input type="checkbox" id="toggle" data-toggle-unit>
-    <label for="toggle">Toggle Unit</label>
 
 </body>
 </html>
