@@ -206,3 +206,14 @@ function getByGeoLocation() {
         })
     }
 }
+
+function getByGeoLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const { latitude, longitude } = position.coords
+            const data = await getCityName(latitude, longitude)
+            const cityName = await getCoords(data[0].name)
+            await getWeatherData(cityName)
+        })
+    }
+}
