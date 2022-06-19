@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
 
 $main-color: #6DFAA5;
 $background-color: #262A2B;
@@ -53,6 +53,7 @@ body {
                 'description temp' 1fr
                 'wind humidity' 1fr /
                 1fr 1fr;
+            place-items: center;
             }
     }
     
@@ -69,6 +70,7 @@ body {
     background: $background-color;
     color: $main-color;
     font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     padding: 50px;
 }
 
@@ -118,7 +120,94 @@ body {
             border-bottom: 1px solid $main-color;
         }
     }
+
+    .weather-data {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h3 {
+            font-size: 1rem;
+            font-weight: 300;
+            margin-top: 10px;
+        }
+    }
+
+    .weather-data.temperature-wrapper {
+        position: relative;
+        .temperature {
+            position: relative;
+        }
+        .reading {
+            position: absolute;
+            top: 0;
+            right: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            h4 {
+                font-size: 0.75rem;
+            }
+        }
+        .toggle {
+            $width: 50px;
+            $height: calc($width / 2);
+            $border-radius: calc($height / 2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: absolute;
+            left: 80%;
+            top: 50%;
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            .__input {
+                display: none;
+            }
+
+            .__fill {
+                position: relative;
+                width: $width;
+                height: $height;
+                border: 1px solid $main-color;
+                border-radius: $border-radius;
+                background: $background-color;
+                transition: background 0.2s;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    transform: translateY(-50%);
+                    width: calc($height - 2px);
+                    height: calc($height - 2px);
+                    border: 1px solid $main-color;
+                    border-radius: 50%;
+                    background: $background-color;
+                    transition: left .5s ease-out;
+                }
+            }
+
+            .__input:checked ~ .__fill {
+                background: $main-color;
+
+                &::before {
+                    left: 50%;
+                }
+            }
+        }
+    }
 }
+
 
 
 form {

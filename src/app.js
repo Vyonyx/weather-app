@@ -76,7 +76,7 @@ async function getWeatherData() {
     updateCurrentWeatherDescription(currentDescription, data)
     updateCurrentTemperature(currentTemperature, data)
     updateCurrentWind(currentWindSpeed, data, params)
-    updateCurrentHumidity(currentHumidity, data, params)
+    updateCurrentHumidity(currentHumidity, data)
 }
 
 function updateCurrentWeatherDescription(element, data) {
@@ -98,14 +98,24 @@ function updateCurrentWeatherDescription(element, data) {
 function updateCurrentTemperature(element, data) {
     removeElements(element)
 
-    const temperatureValue = `${data.current.temp}° ${toggleUnit.checked ? 'Fahrenheit' : 'Celcius'}`
+    const temperatureValue = `${data.current.temp}°`
+    const unitType = `${toggleUnit.checked ? 'Fahrenheit' : 'Celcius'}`
+
     const temperature = document.createElement('h3')
-    const img = new Image(100, 100)
+    const unit = document.createElement('h4')
     temperature.innerText = temperatureValue
+    unit.innerText = unitType
+    const img = new Image(100, 100)
     img.src = symbols['Thermostat']
 
+    const temperatureAndUnit = document.createElement('div')
+    temperatureAndUnit.classList.add('reading')
+    temperatureAndUnit.appendChild(temperature)
+    temperatureAndUnit.appendChild(unit)
+
+    element.appendChild(temperatureAndUnit)
     element.appendChild(img)
-    element.appendChild(temperature)
+    
 }
 
 function updateCurrentWind(element, data, params) {
@@ -121,10 +131,10 @@ function updateCurrentWind(element, data, params) {
     element.appendChild(wind)
 }
 
-function updateCurrentHumidity(element, data, params) {
+function updateCurrentHumidity(element, data) {
     removeElements(element)
 
-    const humidityReading = `${data.current['wind_speed']} ${params.units === 'imperial' ? 'm/ph' : 'm/s'}`
+    const humidityReading = `Humidity: ${data.current['humidity']}%`
     const humidity = document.createElement('h3')
     const img = new Image(100, 100)
     humidity.innerText = humidityReading
