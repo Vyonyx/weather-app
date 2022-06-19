@@ -61,9 +61,11 @@ body {
         grid-area: search;
         place-self: center;
     }
+
+    .images {
+        grid-area: images;
+    }
 }
-
-
 
 // Styling.
 body {
@@ -72,6 +74,30 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     padding: 50px;
+}
+
+.images {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background-image: url('./images/bg_image.png');
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: right;
+
+    .window {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        $window_size: 600px;
+        content: url('./images/window.png');
+        border: 2px solid $main-color;
+        border-radius: 50%;
+        width: $window_size;
+        height: $window_size;
+    }
 }
 
 .forecast-container {
@@ -115,9 +141,10 @@ body {
             position: absolute;
             bottom: calc(0px - 15px);
             left: 0;
-            width: 100%;
+            width: 200%;
             height: 100%;
             border-bottom: 1px solid $main-color;
+            z-index: -1;
         }
     }
 
@@ -254,6 +281,21 @@ form {
     }
 }
 
-.hide {
-    display: none;
+@media screen and (max-width: 1080px) {
+
+    body {
+        grid:
+        'forecast' 1fr
+        'current ' 3fr
+        'search' 1fr /
+        minmax(auto, 800px);
+    }
+
+    .images {
+        display: none;
+    }
+
+    .current-data-container h1::before {
+        width: 100%;
+    }
 }
